@@ -3,12 +3,17 @@ package apirequest
 import (
 	"bytes"
 	"crypto/tls"
+	"embed"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 )
 
-//NOTE - get 요청
+//go:embed jsonFile/*.json:
+var jsonFiles embed.FS
+
+// NOTE - get 요청
 func HandleGetRequest() {
 	fmt.Print("GET 요청할 URL 입력: ")
 
@@ -46,7 +51,7 @@ func HandleGetRequest() {
 	printResponse(resp)
 }
 
-//NOTE - post 요청
+// NOTE - post 요청
 func HandlePostRequest() {
 	fmt.Print("POST 요청할 URL 입력: ")
 
@@ -97,4 +102,23 @@ func HandlePostRequest() {
 	defer resp.Body.Close()
 
 	printResponse(resp)
+}
+
+func GetJsonList() {
+
+	// data 폴더 내의 모든 JSON 파일을 읽어옴
+	files, err := jsonFiles.ReadDir("json")
+	if err != nil {
+		log.Fatalf("error reading directory: %v", err)
+	}
+
+	for _, file := range files {
+		if !file.IsDir() {
+			content, err := jsonFiles.ReadFile("data/" + file.Name())
+			if err != nil {
+				log.Fatalf("error reading file: %v", err)
+			}
+			fmt.Printf("Content of %s:\n%s\n", file.Name(), content)
+		}
+	}
 }
