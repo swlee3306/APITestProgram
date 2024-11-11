@@ -1,7 +1,10 @@
 package main
 
-import apirequest "APITestProgram/internal/apiRequest"
+import (
+	apirequest "APITestProgram/internal/apiRequest"
+)
 
 func main() {
-	apirequest.ApiReqRun()
+	//apirequest.ApiReqRun()
+	apirequest.GetJsonList()
 }
