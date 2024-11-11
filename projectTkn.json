@@ -1,0 +1,26 @@
+{
+  "auth": {
+      "identity": {
+          "methods": [
+              "password"
+          ],
+          "password": {
+              "user": {
+                  "name": "admin",
+                  "domain": {
+                      "id": "default"
+                  },
+                  "password": "cloud1234"
+              }
+          }
+      },
+      "scope": {
+          "project": {
+              "domain": {
+                  "name": "default"
+              },
+              "name": "admin" 
+          }
+      }
+  }
+}
