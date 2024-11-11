@@ -25,7 +25,8 @@
 
 3. 프로그램을 실행합니다.(bash)
   
-  ```go run main.go
+  ```bash
+   go run main.go
 
 4. 요청할 방법을 선택합니다:
 
