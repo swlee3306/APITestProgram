@@ -10,6 +10,8 @@
 - GET 및 POST 요청을 지원합니다.
 - 사용자로부터 URL과 추가 헤더를 입력받습니다.
 - POST 요청의 경우 JSON 파일을 읽어서 요청 본문으로 사용합니다.
+- 미리 등록된 JSON 파일을 읽어서 요청 본문으로 사용합니다.
+- 등록된 JSON 파일 내용을 읽어서 출력합니다.
 - 응답 헤더와 본문을 출력합니다.
 - 종료 신호를 처리하여 프로그램을 안전하게 종료합니다.
 
@@ -34,33 +36,59 @@
 
 - (2) POST 요청
 
-- (3) 종료
+- (3) POST(등록된 body file)
+
+- (4) json body 내용 보기
+
+- (5) 종료
 
 5. 선택한 요청 방법에 따라 다음을 수행합니다:
 
 - GET 요청:
 
-- 요청할 URL을 입력합니다.
+  - 요청할 URL을 입력합니다.
 
-- 추가 헤더가 필요하면 입력합니다.
+  - 추가 헤더가 필요하면 입력합니다.
 
 - POST 요청:
 
-- 요청할 URL을 입력합니다.
+  - 요청할 URL을 입력합니다.
 
-- JSON 파일의 경로를 입력합니다.
+  - JSON 파일의 경로를 입력합니다.
 
-- 추가 헤더가 필요하면 입력합니다.
+  - 추가 헤더가 필요하면 입력합니다.
 
-- 프로그램은 입력된 URL로 요청을 보내고, 응답을 출력합니다.
+  - 프로그램은 입력된 URL로 요청을 보내고, 응답을 출력합니다.
+
+- POST(등록된 body file):
+
+  - json 데이터 목록에서 사용할 body data 입력
+
+  - 요청할 URL을 입력합니다.
+
+  - 추가 헤더가 필요하면 입력합니다.
+
+  - 프로그램은 입력된 URL로 요청을 보내고, 응답을 출력합니다.
+
+- json body 내용 보기:
+
+  - json 데이터 목록에서 출력할 body data 입력
+
+  - 선택한 json 내용을 출력합니다.
 
 6. 코드 설명
 
-- main: 사용자가 요청 방법을 선택하고 해당 요청을 처리하는 루프를 실행합니다.
+- ApiReqRun: 사용자가 요청 방법을 선택하고 해당 요청을 처리하는 루프를 실행합니다.
 
-- handleGetRequest: GET 요청을 처리하며, 입력된 URL과 헤더를 사용하여 요청을 보냅니다.
+- HandleGetRequest: GET 요청을 처리하며, 입력된 URL과 헤더를 사용하여 요청을 보냅니다.
 
-- handlePostRequest: POST 요청을 처리하며, 입력된 URL과 JSON 파일을 사용하여 요청을 보냅니다.
+- HandlePostRequest: POST 요청을 처리하며, 입력된 URL과 JSON 파일을 사용하여 요청을 보냅니다.
+
+- handlePostRequestGetBody: POST 요청을 처리하며, 미리 정의된 JSON BODY 값을 받아 요청을 보냅니다.
+
+- GetJsonList: POST 요청을 처리하며, 미리 정의된 JSON BODY 값을 가지고 handlePostRequestGetBody 함수를 이용하여 요청을 보냅니다.
+
+- ShowJsonFile: 사용자가 선택한 JSON BODY 값을 출력합니다.
 
 - getHeaders: 사용자로부터 추가 헤더를 입력받아 맵 형태로 반환합니다.
 
@@ -77,3 +105,7 @@
 8. 라이센스
 
 - 이 프로젝트는 MIT 라이센스 하에 배포됩니다.
+
+## 별첨
+
+- /APITestProgram/internal/apiRequest/jsonfiles 경로 안에 미리 등록할 json 형식에 body 를 저장해서 사용 가능합니다.

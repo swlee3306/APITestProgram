@@ -13,7 +13,7 @@ func ApiReqRun() {
 		signal.Notify(stopChan, syscall.SIGINT, syscall.SIGTERM)
 	
 		for {
-			fmt.Println("요청할 방법을 선택하세요: (1) GET (2) POST (3) 종료")
+			fmt.Println("요청할 방법을 선택하세요: (1) GET (2) POST (3) POST(등록된 body file) (4) json body 내용 보기 (5) 종료")
 			method, err := scanData()
 	
 			if err != nil {
@@ -27,6 +27,10 @@ func ApiReqRun() {
 			case "2":
 				HandlePostRequest()
 			case "3":
+				GetJsonList()
+			case "4":
+				ShowJsonFile()
+			case "5":
 				fmt.Println("종료합니다...")
 				return
 			default:
