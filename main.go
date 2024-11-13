@@ -5,6 +5,5 @@ import (
 )
 
 func main() {
-	//apirequest.ApiReqRun()
-	apirequest.GetJsonList()
+	apirequest.ApiReqRun()
 }
