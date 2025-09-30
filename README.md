@@ -33,7 +33,9 @@
 ### 🔧 개발자 도구
 - **환경 변수 지원**: 설정을 환경 변수로 관리
 - **설정 파일 관리**: YAML/JSON 설정 파일 지원
-- **로깅 시스템**: 구조화된 로깅 및 디버깅
+- **보안 로깅 시스템**: 민감한 정보 마스킹 처리
+- **히스토리 관리**: 이전 요청 재실행 및 관리
+- **UI/UX 개선**: 컬러 출력 및 사용자 친화적 인터페이스
 - **테스트 자동화**: API 테스트 자동화 지원
 
 ## 📦 설치 및 실행
@@ -246,38 +248,42 @@ API_RETRIES=3
 ```
 APITestProgram/
 ├── main.go                 # 메인 실행 파일
-├── config/                 # 설정 관리
-│   ├── config.go          # 설정 로드 및 관리
-│   └── defaults.go        # 기본 설정값
-├── http/                  # HTTP 클라이언트
-│   ├── client.go          # HTTP 클라이언트 구현
-│   ├── methods.go         # HTTP 메서드 정의
-│   ├── request.go         # 요청 처리
-│   └── response.go        # 응답 처리
+├── bin/                    # 컴파일된 바이너리
+│   ├── ApiTestProgram-linux
+│   ├── ApiTestProgram-MacBook_M1
+│   ├── ApiTestProgram-win.exe
+│   └── GetProjectTkn-수정.sh
 ├── chain/                 # 요청 체인 기능
 │   ├── request_chain.go   # 체인 관리
 │   ├── chain_cli.go      # 대화형 CLI
 │   └── chain_test.go     # 테스트
+├── cli/                   # CLI 인터페이스
+│   └── interactive.go    # 대화형 CLI 구현
+├── config/                # 설정 관리
+│   ├── certificates.go   # 인증서 설정
+│   └── settings.go      # 설정 관리
+├── history/               # 히스토리 기능
+│   └── history.go        # 요청 히스토리 관리
+├── http/                  # HTTP 클라이언트
+│   └── methods.go        # HTTP 메서드 정의
+├── internal/              # 내부 패키지
+│   ├── apiRequest/       # API 요청 처리
+│   │   ├── apiRequest.go
+│   │   ├── common.go
+│   │   ├── run.go
+│   │   └── jsonfiles/     # JSON 파일 저장소
+│   │       ├── projectTkn.json
+│   │       └── token.json
+├── logging/               # 보안 로깅
+│   └── secure_logger.go  # 보안 로깅 시스템
 ├── security/              # 보안 기능
 │   ├── tls.go            # TLS 설정
-│   ├── headers.go        # 보안 헤더
-│   └── validation.go     # 입력 검증
-├── cli/                   # CLI 인터페이스
-│   ├── interface.go      # CLI 인터페이스
-│   ├── colors.go         # 컬러 출력
-│   └── progress.go       # 진행 표시기
-├── utils/                 # 유틸리티
-│   ├── file.go           # 파일 처리
-│   ├── json.go           # JSON 처리
-│   └── validation.go     # 데이터 검증
-├── internal/             # 내부 패키지
-│   ├── apiRequest/       # API 요청 처리
-│   └── jsonfiles/        # JSON 파일 저장소
-├── config.yaml           # 설정 파일
-├── .env.example          # 환경 변수 예제
-├── go.mod               # Go 모듈 파일
-├── go.sum               # 의존성 체크섬
-└── README.md            # 프로젝트 문서
+│   └── headers.go        # 보안 헤더
+├── ui/                    # UI 및 컬러 출력
+│   └── colors.go         # 컬러 출력 및 UI
+├── go.mod                # Go 모듈 파일
+├── go.sum                # 의존성 체크섬
+└── README.md             # 프로젝트 문서
 ```
 
 ## 🔧 고급 사용법
@@ -318,6 +324,52 @@ go run main.go
 # SSL 검증 비활성화 (개발용)
 export APITEST_VERIFY_TLS=false
 go run main.go
+```
+
+### 5. 히스토리 관리
+```go
+// 히스토리 기능 사용
+import "APITestProgram/history"
+
+// 히스토리 매니저 생성
+hm := history.NewHistoryManager()
+
+// 요청 히스토리 저장
+hm.SaveRequest("POST", "https://api.example.com/login", headers, body)
+
+// 히스토리 조회
+requests := hm.GetHistory()
+for _, req := range requests {
+    fmt.Printf("Method: %s, URL: %s, Time: %s\n", 
+        req.Method, req.URL, req.Timestamp)
+}
+
+// 특정 히스토리 재실행
+hm.ReplayRequest("request_id_123")
+```
+
+### 6. 보안 로깅
+```go
+// 보안 로깅 시스템 사용
+import "APITestProgram/logging"
+
+// 보안 로거 생성
+logger := logging.NewSecureLogger()
+
+// 민감한 필드 설정
+logger.SetSensitiveFields([]string{"password", "token", "secret"})
+
+// 요청 로깅 (민감한 정보 자동 마스킹)
+logger.LogRequest("POST", "https://api.example.com/login", 
+    map[string]string{
+        "Content-Type": "application/json",
+        "Authorization": "Bearer secret_token_123", // 자동 마스킹됨
+    }, 
+    `{"username": "user", "password": "secret123"}`, // 패스워드 마스킹됨
+)
+
+// 응답 로깅
+logger.LogResponse(200, responseHeaders, responseBody, time.Since(startTime))
 ```
 
 ## 🧪 테스트
