@@ -40,7 +40,7 @@
 
 ### 1. 저장소 클론
 ```bash
-git clone https://github.com/yourusername/APITestProgram.git
+git clone https://github.com/swlee3306/APITestProgram.git
 cd APITestProgram
 ```
 
@@ -444,9 +444,9 @@ services:
 
 ## 📞 지원 및 문의
 
-- 이슈 리포트: [GitHub Issues](https://github.com/yourusername/APITestProgram/issues)
-- 이메일: your.email@example.com
-- 문서: [Wiki](https://github.com/yourusername/APITestProgram/wiki)
+- 이슈 리포트: [GitHub Issues](https://github.com/swlee3306/APITestProgram/issues)
+- 이메일: swlee3306@gmail.com
+- 문서: [Wiki](https://github.com/swlee3306/APITestProgram/wiki)
 
 ---
 
