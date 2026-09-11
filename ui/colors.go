@@ -242,7 +242,7 @@ func (cp *ColorPrinter) Table(header []string, rows [][]string) {
 	
 	// Print header
 	cp.Print(Bold+Blue, "┌")
-	for i, h := range header {
+	for i := range header {
 		cp.Print(Bold+Blue, "─%s─", strings.Repeat("─", widths[i]))
 		if i < len(header)-1 {
 			cp.Print(Bold+Blue, "┬")
