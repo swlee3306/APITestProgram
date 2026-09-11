@@ -10,7 +10,7 @@
                   "domain": {
                       "id": "default"
                   },
-                  "password": "cloud1234"
+                  "password": "REPLACE_WITH_YOUR_PASSWORD"
               }
           }
       },
